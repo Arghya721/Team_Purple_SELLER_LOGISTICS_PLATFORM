@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import './login.css';
+import { useNavigate } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route , Link} from "react-router-dom";
+import Cookies from 'js-cookie';
 var axios = require('axios');
 
 
 const Login = () =>{
+    const navigate = useNavigate();
+    
+    const[errormsg, seterrormsg] = useState("");
     const [error, setError] = useState(0);
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
@@ -27,10 +32,25 @@ const Login = () =>{
       axios(config)
       .then(function (response) {
 
-        console.log(JSON.stringify(response.data));
+        
+        console.log(response.data.token);
+        Cookies.set('token', response.data.token);
+        Cookies.set('firstname', response.data.first_name);
+        Cookies.set('lastname', response.data.last_name);
+        Cookies.set('email', response.data.email);
+        setTimeout(()=>{
+
+            navigate('/dashboard');
+        }, 3000)
+        
+
+
+
       })
       .catch(function (error) {
-        console.log(error);
+        console.log("i am here");
+        setError(1);
+        seterrormsg("Check your Email and Password");
       });
     }
 return(
@@ -39,7 +59,7 @@ return(
       <div class="wrapper fadeInDown">
   <div id="formContent">
       {error==1?
-  <div className="alert alert-danger">sads</div>:
+  <div className="alert alert-danger">{errormsg}</div>:
   ""}
     <div class="fadeIn first">
       <img src="https://www.iconpacks.net/icons/1/free-user-login-icon-305-thumb.png" id="icon" alt="User Icon" />

@@ -5,6 +5,7 @@ import App from './App';
 import Login from './components/login';
 import Register from './components/register';
 import Dashboard from './dashboard/dashboard';
+import OrderStatus from './dashboard/components/orderstatus';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 ReactDOM.render(
   <React.StrictMode>
@@ -15,6 +16,8 @@ ReactDOM.render(
       <Route exact path = "/login" element={<Login/>}/>
       <Route exact path = "/register" element={<Register/>}/>
       <Route exact path = "/dashboard" element={<Dashboard/>}/>
+      <Route path="/dashboard/orderstatus/:topicId" element={<OrderStatus/>}/>      
+
       </Routes>
     </Router>
   </React.StrictMode>,

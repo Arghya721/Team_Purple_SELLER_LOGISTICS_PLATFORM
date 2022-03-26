@@ -1,60 +1,41 @@
-const LatestPurchases = () => {
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
+const LatestPurchases = (props) => {
+
+    
+    console.log(props);
+    const {data} = props.data;
+    console.log(data);
+    
     return (
+    
       <>
+     
         <table class="table-anonpe-purchases">
           <thead>
             <tr>
-              <th>TRANSACTION</th>
-              <th>DATE & TIME</th>
-              <th>AMOUNT</th>
+              <th>Name</th>
+              <th>Order Status</th>
+              <th>View Details</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                Payment for <strong>XB-222</strong> from
-                <br />
-                <sub>vikash14609@gmail.com </sub>
-              </td>
-              <td> 12 Dec 2021</td>
-              <td> INR 151 </td>
-            </tr>
-            <tr>
-              <td>
-                Payment for <strong>XB-222</strong> from
-                <br />
-                <sub>vikash14609@gmail.com </sub>
-              </td>
-              <td> 12 Dec 2021</td>
-              <td> INR 151 </td>
-            </tr>
-            <tr>
-              <td>
-                Payment for <strong>XB-222</strong> from
-                <br />
-                <sub>vikash14609@gmail.com </sub>
-              </td>
-              <td> 12 Dec 2021</td>
-              <td> INR 151 </td>
-            </tr>
-            <tr>
-              <td>
-                Payment for <strong>XB-222</strong> from
-                <br />
-                <sub>vikash14609@gmail.com </sub>
-              </td>
-              <td> 12 Dec 2021</td>
-              <td> INR 151 </td>
-            </tr>
-            <tr>
-              <td>
-                Payment for <strong>XB-222</strong> from
-                <br />
-                <sub>vikash14609@gmail.com </sub>
-              </td>
-              <td> 12 Dec 2021</td>
-              <td> INR 151 </td>
-            </tr>
+          {
+                data.map(element => {
+                    return(
+                    <tr>
+                    <td>
+                     {element.customer_name}
+                      <br />
+                      <sub>{element.customer_email} </sub>
+                    </td>
+                    <td> {element.id}</td>
+                    <td> <Link to={"/dashboard/orderstatus/"+element.id}><button>View Status</button> </Link></td>
+                  </tr>
+                    )
+                })
+          }
+           
           </tbody>
         </table>
       </>

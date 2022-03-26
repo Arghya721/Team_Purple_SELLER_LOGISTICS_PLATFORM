@@ -1,7 +1,43 @@
 import "./dashboard.css";
+import axios from "axios";
 import Am from "./components/graph1";
 import LatestPurchases from "./components/latest_purchases";
+import Cookies from 'js-cookie';
+import { useCallback, useEffect, useState } from "react";
+import OrderStatus from "./components/orderstatus";
+import { BrowserRouter as Router, Routes, Route, useParams} from "react-router-dom";
 export default function Dashboard() {
+  
+    const [maal, setmaal] = useState([]);
+    const [orderid, setorderid] = useState(0);
+    const [ isreadypur, setisreadypur] = useState(0);
+    
+    
+    async function fetchorder(){
+
+        var config = {
+            method: 'get',
+            url: 'https://apiv2.shiprocket.in/v1/external/orders/',
+            headers: { 
+              'Authorization': 'Bearer '+Cookies.get('token')
+            }
+          };
+          
+          await axios(config)
+          .then(function (response) {
+              setmaal(response);
+              setisreadypur(1);
+            console.log(JSON.stringify(response.data));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
+  useEffect(()=>{
+   
+    fetchorder();
+
+  },[]);
   return (
     <div className="App">
       <div className="header">
@@ -55,7 +91,10 @@ export default function Dashboard() {
                   <div className="boxname">Current Balance</div>
                 </div>
               </div>
-              <Am />
+
+             <Am/>
+
+             
             </div>
             <div className="area2">
               <div className="dashboard-box">
@@ -70,7 +109,9 @@ export default function Dashboard() {
                   <button className="">Refresh</button>
                 </div>
               </div>
-              <LatestPurchases />
+              {isreadypur===1?
+              <LatestPurchases data = {maal.data}/>:
+              ""}
             </div>
             <div class="area3">
               <div className="salesbox">
