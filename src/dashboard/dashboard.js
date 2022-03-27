@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import OrderStatus from "./components/orderstatus";
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 import Logo from "../img/logo.svg";
+import Back from "../img/background.svg";
 export default function Dashboard() {
 
   const navigate = useNavigate();
@@ -55,14 +56,34 @@ export default function Dashboard() {
         <div className="logo">
           <img src={Logo} style={{ "width": "75px" }} />
         </div>
-
+          
         <div className="profile"></div>
+
       </div>
       <div className="main-container">
         <div className="areamain1">
           <div className="sidebar">
+          <div id="connectto">
+            
+            <div className="section-name">SHIPMENT ID</div>
+            <div style={{"display": "flex",
+  "flex-direction": "column"}}>
+            <input name="shipment" onChange={(e)=>{
+              if(e.target.value!=""){
+
+              navigate(`/dashboard/shipment/${e.target.value}`)
+            }}}></input></div>
+            </div>
+
             <div id="connectto">
-              <div className="section-name">PROFILE</div>
+              <div className="section-name">ORDER ID</div>
+              <div style={{"display": "flex",
+    "flex-direction": "column"}}>
+              <input name="shipment" onChange={(e)=>{
+                if(e.target.value!=""){
+
+                navigate(`/dashboard/orderstatus/${e.target.value}`)
+              }}}></input></div>
               <div className="topoptions">
                 <li onClick={() => {
                   Cookies.remove('token');
@@ -75,7 +96,7 @@ export default function Dashboard() {
         <div class="areamain2">
           <div class="dashboard-container">
             <div className="area1">{
-              params.topicId != null ? <OrderStatus id={params.topicId} /> : <><h1>Welcome</h1></>
+              params.topicId === "shipment" ? <h1>This is Shipment</h1> : params.topicId === "orderstatus" ? <OrderStatus id={params.topicId} /> : <><h1><img src={Back} style={{"width" : "100%" , "padding":"20px"}}></img></h1></>
             }
             </div>
             <div className="area2">

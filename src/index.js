@@ -4,7 +4,6 @@ import './index.css';
 import Login from './components/login';
 import Register from './components/register';
 import Dashboard from './dashboard/dashboard';
-import OrderStatus from './dashboard/components/orderstatus';
 import Ssax from './components/maps';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -19,7 +18,7 @@ ReactDOM.render(
       <Route exact path = "/dashboard" element={<Dashboard/>}/>
       <Route path="/dashboard/orderstatus/:topicId" element={<Dashboard/>}/>      
       <Route path="/maps" element={<Ssax/>}/> 
-      
+      <Route path="/dashboard/shipment/:topicId" element={<Dashboard/>}/>
       </Routes>
     </Router>
   </React.StrictMode>,
