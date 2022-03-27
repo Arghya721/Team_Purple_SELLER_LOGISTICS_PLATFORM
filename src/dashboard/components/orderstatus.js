@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import Edd from "./edd";
 import { BrowserRouter as Router, Routes, Route, useParams} from "react-router-dom";
-
+import Ssax from "../../components/maps";
 const OrderStatus = (props) =>{
     let abcx = useParams();
     const [datax, setdatax] = useState([]);
     const [pd, setpd]  =useState([]);
     const [sid, setsid]  =useState({});
-  
+    const [coor , setcoor] = useState([]);
   
      function getedd(sidx){
 
@@ -49,11 +48,14 @@ const OrderStatus = (props) =>{
                      
                      setdatax(response.data.data.products);
                      setpd(response.data.data);
+                     setsid(response.data.data.shipments);
                      
+                    setcoor({lat:response.data.data.pickup_address.lat, lon:response.data.data.pickup_address.long});
+                   // console.log(coor);
                      try{
 
                      setsid(response.data.data.shipments);
-                     getedd(response.data.data.shipments.id);
+    
                      }
                      catch(e){
                         
@@ -69,10 +71,6 @@ const OrderStatus = (props) =>{
 
     return(
         <>
-    
-         
-          
-           
         <table class="table-anonpe-purchases">
           <thead>
             <tr>
@@ -161,7 +159,7 @@ Shipment Id
        </tr>
        <tr>
            <td>
-Estimated Delivery Date:
+Pickup Address Realtime Location:
            </td>
            <td>
        
@@ -170,6 +168,9 @@ Estimated Delivery Date:
        </tr>
        </tbody>
    </table>
+
+
+   <Ssax coordinates={coor}/>
   </div>
 </div>
  

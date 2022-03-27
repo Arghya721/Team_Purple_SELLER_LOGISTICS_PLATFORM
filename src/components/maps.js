@@ -12,17 +12,13 @@ const center = {
 };
 
 
-
-
 function Ssax(props) {
-  const [pincode, setpincodes ] = useState([]);
-  const [position, setPosition] = useState([]);
-    
+
+  console.log(props.coordinates);
 
     useEffect(()=>{
-      setpincodes(props.data.data);
+      
      
-
     });
   
     
@@ -53,37 +49,11 @@ function Ssax(props) {
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
-       
-{
-pincode.map((element, index)=>{
-  
-var config = {
-    method: 'get',
-    url: 'https://api.openweathermap.org/geo/1.0/zip?zip='+element.customer_pincode+',IN&appid=28b15f5ea79d947c93ec16c973407957',
-
-  };
-  
-  axios(config)
-  .then(function (response) {
-    
-    const jsonx = { lat: response.data.lat, lng: response.data.lon };
-    return (
-      <React.Fragment key={index}>
-        <Marker position={{ lat: response.data.lat, lng: response.data.lon }} draggable={true}/>  
-      </React.Fragment>
-    )
-   
-      
-       
-  
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-  
 
 
-})}
+<Marker position={{ lat: parseInt(props.coordinates.lat), lng: parseInt(props.coordinates.lon) }} draggable={true}/>  
+
+
         <></>
       </GoogleMap>
   ) : <></>

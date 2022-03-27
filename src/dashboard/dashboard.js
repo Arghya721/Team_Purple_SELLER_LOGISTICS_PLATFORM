@@ -1,17 +1,12 @@
 import "./dashboard.css";
 import axios from "axios";
-import Am from "./components/graph1";
 import LatestPurchases from "./components/latest_purchases";
 import Cookies from 'js-cookie';
 import { useCallback, useEffect, useState } from "react";
-import OrderStatus from "./components/orderstatus";
-import { BrowserRouter as Router, Routes, Route, useParams} from "react-router-dom";
 
-import Ssax from '../components/maps';
 export default function Dashboard() {
    
     const [maal, setmaal] = useState([]);
-    const [orderid, setorderid] = useState(0);
     const [ isreadypur, setisreadypur] = useState(0);
     const [id, setid] = useState(1);
   
@@ -99,7 +94,7 @@ export default function Dashboard() {
                   <div className="boxname">Current Balance</div>
                 </div>
               </div>
-              {isreadypur===1?<Ssax data = {maal.data}/>: "Loading"}             
+                        
             </div>
             <div className="area2">
               <div className="dashboard-box">
