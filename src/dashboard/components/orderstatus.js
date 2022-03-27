@@ -8,29 +8,64 @@ const OrderStatus = (props) =>{
     let abcx = useParams();
     const [datax, setdatax] = useState([]);
     const [pd, setpd]  =useState([]);
-    async function getorderstatus(){
+    const [sid, setsid]  =useState({});
+  
+  
+     function getedd(sidx){
 
         let headersList = {
             "Authorization": "Bearer " + Cookies.get('token')
            }
            
            let reqOptions = {
-             url: "https://apiv2.shiprocket.in/v1/external/orders/show/"+abcx.topicId,
+             url: "https://apiv2.shiprocket.in/v1/external/courier/track/shipment/"+sidx,
              method: "GET",
              headers: headersList,
            }
            
-        await axios.request(reqOptions).then(function (response) {
+         axios.request(reqOptions).then(function (response) {
              
-             setdatax(response.data.data.products);
-             setpd(response.data.data);
+             
            })
 
-    }
+   
+        }
     
     useEffect(()=>{
-        getorderstatus();
-    },[])
+        
+            async function getorderstatus(callback){
+
+                let headersList = {
+                    "Authorization": "Bearer " + Cookies.get('token')
+                   }
+                   
+                   let reqOptions = {
+                     url: "https://apiv2.shiprocket.in/v1/external/orders/show/"+abcx.topicId,
+                     method: "GET",
+                     headers: headersList,
+                   }
+                   
+                await axios.request(reqOptions).then(function (response) {
+                     
+                     setdatax(response.data.data.products);
+                     setpd(response.data.data);
+                     
+                     try{
+
+                     setsid(response.data.data.shipments);
+                     getedd(response.data.data.shipments.id);
+                     }
+                     catch(e){
+                        
+                     }
+                    //  console.log(response.data.data.shipments.id);
+                   })
+                   
+            }
+
+        getorderstatus(getedd);
+        
+    },[]);
 
     return(
         <>
@@ -52,6 +87,7 @@ const OrderStatus = (props) =>{
           <tbody>
           {
                 datax.map((element, index) => {
+                   
                     return(
                     <tr>
                     <td key={index}>
@@ -69,9 +105,9 @@ const OrderStatus = (props) =>{
                     <td><button>{pd.status}</button></td>
                     {/* <td> <Link to={"/dashboard/orderstatus/"+element.id}><button>View Status</button> </Link></td> */}
                   </tr>
-                  
-                    );
                    
+                    );
+                  
                 })
           }
           
@@ -86,6 +122,7 @@ const OrderStatus = (props) =>{
 <div class="collapse" id="collapseExample">
   <div class="card card-body" style={{"border":"none"}}>
   <table>
+      <tbody>
        <tr>
            <td>
 Customer Name:
@@ -115,10 +152,10 @@ Customer Pincode:
        </tr>
        <tr>
            <td>
-Pickup Location:
+Shipment Id
            </td>
            <td>
-{pd.delivery_code}
+{sid.id}
            </td>
          
        </tr>
@@ -127,11 +164,11 @@ Pickup Location:
 Estimated Delivery Date:
            </td>
            <td>
-             {/* {console.log(pd.shipments.id)} */}
-{/* <Edd id = {"asdas"}/> */}
+       
            </td>
          
        </tr>
+       </tbody>
    </table>
   </div>
 </div>

@@ -6,18 +6,20 @@ import Cookies from 'js-cookie';
 import { useCallback, useEffect, useState } from "react";
 import OrderStatus from "./components/orderstatus";
 import { BrowserRouter as Router, Routes, Route, useParams} from "react-router-dom";
+
+import Ssax from '../components/maps';
 export default function Dashboard() {
-  
+   
     const [maal, setmaal] = useState([]);
     const [orderid, setorderid] = useState(0);
     const [ isreadypur, setisreadypur] = useState(0);
-    
-    
-    async function fetchorder(){
-
+    const [id, setid] = useState(1);
+  
+    async function fetchorder(id){
+        
         var config = {
             method: 'get',
-            url: 'https://apiv2.shiprocket.in/v1/external/orders/',
+            url: 'https://apiv2.shiprocket.in/v1/external/orders/?page='+id,
             headers: { 
               'Authorization': 'Bearer '+Cookies.get('token')
             }
@@ -25,19 +27,25 @@ export default function Dashboard() {
           
           await axios(config)
           .then(function (response) {
+              
               setmaal(response);
               setisreadypur(1);
-            console.log(JSON.stringify(response.data));
+             
+            
           })
           .catch(function (error) {
-            console.log(error);
+       
           });
+          
     }
+
   useEffect(()=>{
-   
-    fetchorder();
+    
+    fetchorder(id);
+ 
 
   },[]);
+ 
   return (
     <div className="App">
       <div className="header">
@@ -91,10 +99,7 @@ export default function Dashboard() {
                   <div className="boxname">Current Balance</div>
                 </div>
               </div>
-
-             <Am/>
-
-             
+              {isreadypur===1?<Ssax data = {maal.data}/>: "Loading"}             
             </div>
             <div className="area2">
               <div className="dashboard-box">
@@ -103,6 +108,14 @@ export default function Dashboard() {
                   <div className="boxname">
                     This is a list of latest purchases
                   </div>
+                  {isreadypur===1? (maal.data.meta.pagination.current_page<maal.data.meta.pagination.total_pages?<button onClick={()=>{
+                      fetchorder(id+1);
+                      setid(id+1);
+                  }}>Next Page</button>:""):"sd"
+             }                  
+             {isreadypur===1? (maal.data.meta.pagination.current_page>1?<button>Previous page</button>:""):"sd"
+}
+                  
                 </div>
 
                 <div className="refresh-anonpe">

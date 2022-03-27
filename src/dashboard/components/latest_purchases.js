@@ -2,11 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
 const LatestPurchases = (props) => {
 
-    
-    console.log(props);
     const {data} = props.data;
-    console.log(data);
-    
+  
     return (
     
       <>

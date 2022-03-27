@@ -6,6 +6,7 @@ import Login from './components/login';
 import Register from './components/register';
 import Dashboard from './dashboard/dashboard';
 import OrderStatus from './dashboard/components/orderstatus';
+import Ssax from './components/maps';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 ReactDOM.render(
   <React.StrictMode>
@@ -17,7 +18,7 @@ ReactDOM.render(
       <Route exact path = "/register" element={<Register/>}/>
       <Route exact path = "/dashboard" element={<Dashboard/>}/>
       <Route path="/dashboard/orderstatus/:topicId" element={<OrderStatus/>}/>      
-
+      <Route path="/maps" element={<Ssax/>}/> 
       </Routes>
     </Router>
   </React.StrictMode>,
